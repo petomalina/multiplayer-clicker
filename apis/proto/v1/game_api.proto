@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package v1;
+
+option go_package = "github.com/petomalina/multiplayer-clicker/apis";
+
+//import "google/api/annotations.proto";
+//import "google/protobuf/empty.proto";
+
+message PlayRequest {
+    string name = 1;
+}
+
+message PlayResponse {
+    string token = 10;
+}
+
+message StateRequest {
+    string token = 10;
+}
+
+message StateResponse {
+    map<string, string> scores = 1;
+}
+
+message BuyRequest {
+    string item = 1;
+
+    string token = 10;
+}
+
+message BuyResponse {}
+
+message AttackRequest {
+    string token = 10;
+}
+
+message AttackResponse {}
+
+service GameService {
+    rpc Play (PlayRequest) returns (PlayResponse) {
+    }
+
+    rpc GetStreamingBroadcast (StateRequest) returns (stream StateResponse) {
+    }
+
+    rpc Buy (BuyRequest) returns (BuyResponse) {
+    }
+
+    rpc Attack (AttackRequest) returns (AttackResponse) {
+    }
+}
