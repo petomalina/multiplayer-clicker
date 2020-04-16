@@ -138,7 +138,7 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.v1.StateResponse = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.v1.StateResponse.repeatedFields_, null);
 };
 goog.inherits(proto.v1.StateResponse, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -1003,6 +1003,13 @@ proto.v1.PlayerStat.prototype.setScore = function(value) {
 
 
 
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.v1.StateResponse.repeatedFields_ = [2];
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -1035,7 +1042,8 @@ proto.v1.StateResponse.prototype.toObject = function(opt_includeInstance) {
 proto.v1.StateResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     me: (f = msg.getMe()) && proto.v1.Player.toObject(includeInstance, f),
-    scoresMap: (f = msg.getScoresMap()) ? f.toObject(includeInstance, proto.v1.PlayerStat.toObject) : []
+    scoresList: jspb.Message.toObjectList(msg.getScoresList(),
+    proto.v1.PlayerStat.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -1078,10 +1086,9 @@ proto.v1.StateResponse.deserializeBinaryFromReader = function(msg, reader) {
       msg.setMe(value);
       break;
     case 2:
-      var value = msg.getScoresMap();
-      reader.readMessage(value, function(message, reader) {
-        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readMessage, proto.v1.PlayerStat.deserializeBinaryFromReader, "", new proto.v1.PlayerStat());
-         });
+      var value = new proto.v1.PlayerStat;
+      reader.readMessage(value,proto.v1.PlayerStat.deserializeBinaryFromReader);
+      msg.addScores(value);
       break;
     default:
       reader.skipField();
@@ -1120,9 +1127,13 @@ proto.v1.StateResponse.serializeBinaryToWriter = function(message, writer) {
       proto.v1.Player.serializeBinaryToWriter
     );
   }
-  f = message.getScoresMap(true);
-  if (f && f.getLength() > 0) {
-    f.serializeBinary(2, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeMessage, proto.v1.PlayerStat.serializeBinaryToWriter);
+  f = message.getScoresList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      2,
+      f,
+      proto.v1.PlayerStat.serializeBinaryToWriter
+    );
   }
 };
 
@@ -1165,25 +1176,41 @@ proto.v1.StateResponse.prototype.hasMe = function() {
 
 
 /**
- * map<string, PlayerStat> scores = 2;
- * @param {boolean=} opt_noLazyCreate Do not create the map if
- * empty, instead returning `undefined`
- * @return {!jspb.Map<string,!proto.v1.PlayerStat>}
+ * repeated PlayerStat scores = 2;
+ * @return {!Array<!proto.v1.PlayerStat>}
  */
-proto.v1.StateResponse.prototype.getScoresMap = function(opt_noLazyCreate) {
-  return /** @type {!jspb.Map<string,!proto.v1.PlayerStat>} */ (
-      jspb.Message.getMapField(this, 2, opt_noLazyCreate,
-      proto.v1.PlayerStat));
+proto.v1.StateResponse.prototype.getScoresList = function() {
+  return /** @type{!Array<!proto.v1.PlayerStat>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.v1.PlayerStat, 2));
 };
 
 
 /**
- * Clears values from the map. The map will be non-null.
+ * @param {!Array<!proto.v1.PlayerStat>} value
+ * @return {!proto.v1.StateResponse} returns this
+*/
+proto.v1.StateResponse.prototype.setScoresList = function(value) {
+  return jspb.Message.setRepeatedWrapperField(this, 2, value);
+};
+
+
+/**
+ * @param {!proto.v1.PlayerStat=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.v1.PlayerStat}
+ */
+proto.v1.StateResponse.prototype.addScores = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 2, opt_value, proto.v1.PlayerStat, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
  * @return {!proto.v1.StateResponse} returns this
  */
-proto.v1.StateResponse.prototype.clearScoresMap = function() {
-  this.getScoresMap().clear();
-  return this;};
+proto.v1.StateResponse.prototype.clearScoresList = function() {
+  return this.setScoresList([]);
+};
 
 
 

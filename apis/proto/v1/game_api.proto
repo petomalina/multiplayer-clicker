@@ -33,7 +33,7 @@ message PlayerStat {
 
 message StateResponse {
     Player me = 1;
-    map<string, PlayerStat> scores = 2;
+    repeated PlayerStat scores = 2;
 }
 
 message BuyRequest {

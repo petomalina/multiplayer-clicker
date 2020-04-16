@@ -112,8 +112,10 @@ export class StateResponse extends jspb.Message {
   hasMe(): boolean;
   clearMe(): void;
 
-  getScoresMap(): jspb.Map<string, PlayerStat>;
-  clearScoresMap(): void;
+  getScoresList(): Array<PlayerStat>;
+  setScoresList(value: Array<PlayerStat>): void;
+  clearScoresList(): void;
+  addScores(value?: PlayerStat, index?: number): PlayerStat;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): StateResponse.AsObject;
@@ -126,7 +128,7 @@ export class StateResponse extends jspb.Message {
 export namespace StateResponse {
   export type AsObject = {
     me?: Player.AsObject,
-    scoresMap: Array<[string, PlayerStat.AsObject]>,
+    scoresList: Array<PlayerStat.AsObject>,
   }
 }
 
