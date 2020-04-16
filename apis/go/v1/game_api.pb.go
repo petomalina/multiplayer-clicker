@@ -74,6 +74,7 @@ func (m *PlayRequest) GetName() string {
 
 type PlayResponse struct {
 	Token string `protobuf:"bytes,10,opt,name=token,proto3" json:"token,omitempty"`
+	Name  string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 }
 
 func (m *PlayResponse) Reset()      { *m = PlayResponse{} }
@@ -111,6 +112,13 @@ var xxx_messageInfo_PlayResponse proto.InternalMessageInfo
 func (m *PlayResponse) GetToken() string {
 	if m != nil {
 		return m.Token
+	}
+	return ""
+}
+
+func (m *PlayResponse) GetName() string {
+	if m != nil {
+		return m.Name
 	}
 	return ""
 }
@@ -158,14 +166,125 @@ func (m *StateRequest) GetToken() string {
 	return ""
 }
 
+type Player struct {
+	Resources       int32 `protobuf:"varint,1,opt,name=resources,proto3" json:"resources,omitempty"`
+	ProductionLevel int32 `protobuf:"varint,2,opt,name=productionLevel,proto3" json:"productionLevel,omitempty"`
+	DefenseLevel    int32 `protobuf:"varint,3,opt,name=defenseLevel,proto3" json:"defenseLevel,omitempty"`
+}
+
+func (m *Player) Reset()      { *m = Player{} }
+func (*Player) ProtoMessage() {}
+func (*Player) Descriptor() ([]byte, []int) {
+	return fileDescriptor_98ba2fc1278fb4fe, []int{3}
+}
+func (m *Player) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Player) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Player.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Player) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Player.Merge(m, src)
+}
+func (m *Player) XXX_Size() int {
+	return m.Size()
+}
+func (m *Player) XXX_DiscardUnknown() {
+	xxx_messageInfo_Player.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Player proto.InternalMessageInfo
+
+func (m *Player) GetResources() int32 {
+	if m != nil {
+		return m.Resources
+	}
+	return 0
+}
+
+func (m *Player) GetProductionLevel() int32 {
+	if m != nil {
+		return m.ProductionLevel
+	}
+	return 0
+}
+
+func (m *Player) GetDefenseLevel() int32 {
+	if m != nil {
+		return m.DefenseLevel
+	}
+	return 0
+}
+
+type PlayerStat struct {
+	Name  string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Score string `protobuf:"bytes,2,opt,name=score,proto3" json:"score,omitempty"`
+}
+
+func (m *PlayerStat) Reset()      { *m = PlayerStat{} }
+func (*PlayerStat) ProtoMessage() {}
+func (*PlayerStat) Descriptor() ([]byte, []int) {
+	return fileDescriptor_98ba2fc1278fb4fe, []int{4}
+}
+func (m *PlayerStat) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *PlayerStat) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_PlayerStat.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *PlayerStat) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PlayerStat.Merge(m, src)
+}
+func (m *PlayerStat) XXX_Size() int {
+	return m.Size()
+}
+func (m *PlayerStat) XXX_DiscardUnknown() {
+	xxx_messageInfo_PlayerStat.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PlayerStat proto.InternalMessageInfo
+
+func (m *PlayerStat) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *PlayerStat) GetScore() string {
+	if m != nil {
+		return m.Score
+	}
+	return ""
+}
+
 type StateResponse struct {
-	Scores map[string]string `protobuf:"bytes,1,rep,name=scores,proto3" json:"scores,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Me     *Player                `protobuf:"bytes,1,opt,name=me,proto3" json:"me,omitempty"`
+	Scores map[string]*PlayerStat `protobuf:"bytes,2,rep,name=scores,proto3" json:"scores,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *StateResponse) Reset()      { *m = StateResponse{} }
 func (*StateResponse) ProtoMessage() {}
 func (*StateResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_98ba2fc1278fb4fe, []int{3}
+	return fileDescriptor_98ba2fc1278fb4fe, []int{5}
 }
 func (m *StateResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -194,7 +313,14 @@ func (m *StateResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_StateResponse proto.InternalMessageInfo
 
-func (m *StateResponse) GetScores() map[string]string {
+func (m *StateResponse) GetMe() *Player {
+	if m != nil {
+		return m.Me
+	}
+	return nil
+}
+
+func (m *StateResponse) GetScores() map[string]*PlayerStat {
 	if m != nil {
 		return m.Scores
 	}
@@ -209,7 +335,7 @@ type BuyRequest struct {
 func (m *BuyRequest) Reset()      { *m = BuyRequest{} }
 func (*BuyRequest) ProtoMessage() {}
 func (*BuyRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_98ba2fc1278fb4fe, []int{4}
+	return fileDescriptor_98ba2fc1278fb4fe, []int{6}
 }
 func (m *BuyRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -258,7 +384,7 @@ type BuyResponse struct {
 func (m *BuyResponse) Reset()      { *m = BuyResponse{} }
 func (*BuyResponse) ProtoMessage() {}
 func (*BuyResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_98ba2fc1278fb4fe, []int{5}
+	return fileDescriptor_98ba2fc1278fb4fe, []int{7}
 }
 func (m *BuyResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -288,13 +414,14 @@ func (m *BuyResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_BuyResponse proto.InternalMessageInfo
 
 type AttackRequest struct {
-	Token string `protobuf:"bytes,10,opt,name=token,proto3" json:"token,omitempty"`
+	Defender string `protobuf:"bytes,1,opt,name=defender,proto3" json:"defender,omitempty"`
+	Token    string `protobuf:"bytes,10,opt,name=token,proto3" json:"token,omitempty"`
 }
 
 func (m *AttackRequest) Reset()      { *m = AttackRequest{} }
 func (*AttackRequest) ProtoMessage() {}
 func (*AttackRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_98ba2fc1278fb4fe, []int{6}
+	return fileDescriptor_98ba2fc1278fb4fe, []int{8}
 }
 func (m *AttackRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -323,6 +450,13 @@ func (m *AttackRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_AttackRequest proto.InternalMessageInfo
 
+func (m *AttackRequest) GetDefender() string {
+	if m != nil {
+		return m.Defender
+	}
+	return ""
+}
+
 func (m *AttackRequest) GetToken() string {
 	if m != nil {
 		return m.Token
@@ -336,7 +470,7 @@ type AttackResponse struct {
 func (m *AttackResponse) Reset()      { *m = AttackResponse{} }
 func (*AttackResponse) ProtoMessage() {}
 func (*AttackResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_98ba2fc1278fb4fe, []int{7}
+	return fileDescriptor_98ba2fc1278fb4fe, []int{9}
 }
 func (m *AttackResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -369,8 +503,10 @@ func init() {
 	proto.RegisterType((*PlayRequest)(nil), "v1.PlayRequest")
 	proto.RegisterType((*PlayResponse)(nil), "v1.PlayResponse")
 	proto.RegisterType((*StateRequest)(nil), "v1.StateRequest")
+	proto.RegisterType((*Player)(nil), "v1.Player")
+	proto.RegisterType((*PlayerStat)(nil), "v1.PlayerStat")
 	proto.RegisterType((*StateResponse)(nil), "v1.StateResponse")
-	proto.RegisterMapType((map[string]string)(nil), "v1.StateResponse.ScoresEntry")
+	proto.RegisterMapType((map[string]*PlayerStat)(nil), "v1.StateResponse.ScoresEntry")
 	proto.RegisterType((*BuyRequest)(nil), "v1.BuyRequest")
 	proto.RegisterType((*BuyResponse)(nil), "v1.BuyResponse")
 	proto.RegisterType((*AttackRequest)(nil), "v1.AttackRequest")
@@ -380,35 +516,42 @@ func init() {
 func init() { proto.RegisterFile("v1/game_api.proto", fileDescriptor_98ba2fc1278fb4fe) }
 
 var fileDescriptor_98ba2fc1278fb4fe = []byte{
-	// 440 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x92, 0xcd, 0x6e, 0xd3, 0x40,
-	0x10, 0xc7, 0x77, 0x93, 0x12, 0x89, 0x31, 0x69, 0xd3, 0x15, 0x48, 0x51, 0x24, 0x56, 0xc5, 0x02,
-	0x29, 0x12, 0xc2, 0x21, 0x45, 0x20, 0xe0, 0x04, 0x91, 0x50, 0xaf, 0x28, 0xb9, 0x71, 0x41, 0x5b,
-	0x77, 0x14, 0x56, 0xf6, 0x7a, 0xcd, 0x7a, 0x6d, 0xc9, 0x37, 0x78, 0x03, 0x1e, 0x83, 0x47, 0xe1,
-	0x98, 0x63, 0xb9, 0x11, 0xe7, 0xc2, 0xb1, 0x8f, 0x80, 0xfc, 0xd5, 0xba, 0x02, 0x7a, 0x9b, 0x99,
-	0xfd, 0xcd, 0xc7, 0xff, 0x6f, 0xc3, 0x61, 0x36, 0x9f, 0xad, 0x85, 0xc2, 0x8f, 0x22, 0x96, 0x5e,
-	0x6c, 0xb4, 0xd5, 0xac, 0x97, 0xcd, 0xdd, 0x07, 0xe0, 0xbc, 0x0f, 0x45, 0xbe, 0xc4, 0xcf, 0x29,
-	0x26, 0x96, 0x31, 0xd8, 0x8b, 0x84, 0xc2, 0x31, 0x3d, 0xa2, 0xd3, 0xdb, 0xcb, 0x2a, 0x76, 0x1f,
-	0xc2, 0x9d, 0x1a, 0x49, 0x62, 0x1d, 0x25, 0xc8, 0xee, 0xc2, 0x2d, 0xab, 0x03, 0x8c, 0xc6, 0x50,
-	0x41, 0x75, 0x52, 0x52, 0x2b, 0x2b, 0x2c, 0xb6, 0x93, 0xfe, 0x4d, 0x7d, 0xa5, 0x30, 0x6c, 0xb0,
-	0x66, 0xda, 0x73, 0x18, 0x24, 0xbe, 0x36, 0x98, 0x8c, 0xe9, 0x51, 0x7f, 0xea, 0x1c, 0xdf, 0xf7,
-	0xb2, 0xb9, 0x77, 0x0d, 0xf1, 0x56, 0xd5, 0xfb, 0xbb, 0xc8, 0x9a, 0x7c, 0xd9, 0xc0, 0x93, 0x57,
-	0xe0, 0x74, 0xca, 0x6c, 0x04, 0xfd, 0x00, 0xf3, 0xe6, 0xec, 0x32, 0x2c, 0xf7, 0x67, 0x22, 0x4c,
-	0x71, 0xdc, 0xab, 0xf7, 0x57, 0xc9, 0xeb, 0xde, 0x4b, 0xea, 0xbe, 0x00, 0x58, 0xa4, 0x5d, 0xc5,
-	0xd2, 0xa2, 0x6a, 0x15, 0x97, 0xf1, 0x7f, 0x6e, 0x1f, 0x82, 0x53, 0xf5, 0xd5, 0x57, 0xb9, 0x8f,
-	0x60, 0xf8, 0xd6, 0x5a, 0xe1, 0x07, 0x37, 0x2b, 0x1e, 0xc1, 0x7e, 0x8b, 0xd5, 0x8d, 0xc7, 0x3f,
-	0x29, 0x38, 0x27, 0x42, 0xe1, 0x0a, 0x4d, 0x26, 0x7d, 0x64, 0x8f, 0x61, 0xaf, 0xf4, 0x97, 0x1d,
-	0x94, 0xca, 0x3b, 0x1f, 0x63, 0x32, 0xba, 0x2a, 0x34, 0x3b, 0x09, 0x7b, 0x03, 0xf7, 0x4e, 0xd0,
-	0xae, 0xac, 0x41, 0xa1, 0x64, 0xb4, 0x5e, 0x18, 0x2d, 0xce, 0x7c, 0x91, 0x58, 0x36, 0xea, 0xf8,
-	0x56, 0xb7, 0x1f, 0xfe, 0xe5, 0xa4, 0x4b, 0x9e, 0x52, 0x36, 0x85, 0xfe, 0x22, 0xcd, 0xd9, 0x7e,
-	0xf9, 0x7a, 0xe5, 0xc3, 0xe4, 0xe0, 0x32, 0xbf, 0xdc, 0x35, 0x87, 0x41, 0x7d, 0x3a, 0xab, 0x46,
-	0x5d, 0x53, 0x3b, 0x61, 0xdd, 0x52, 0xdb, 0xb2, 0x38, 0xdb, 0x6c, 0x39, 0x39, 0xdf, 0x72, 0x72,
-	0xb1, 0xe5, 0xf4, 0x4b, 0xc1, 0xe9, 0xf7, 0x82, 0xd3, 0x1f, 0x05, 0xa7, 0x9b, 0x82, 0xd3, 0x5f,
-	0x05, 0xa7, 0xbf, 0x0b, 0x4e, 0x2e, 0x0a, 0x4e, 0xbf, 0xed, 0x38, 0xd9, 0xec, 0x38, 0x39, 0xdf,
-	0x71, 0xf2, 0xc1, 0x5b, 0x4b, 0xfb, 0x29, 0x3d, 0xf5, 0x7c, 0xad, 0x66, 0x31, 0x5a, 0xad, 0x44,
-	0x28, 0x23, 0x31, 0x53, 0x69, 0x68, 0x65, 0x1c, 0x8a, 0x1c, 0xcd, 0x13, 0x3f, 0x94, 0x7e, 0x80,
-	0x66, 0x26, 0x62, 0x99, 0x9c, 0x0e, 0xaa, 0xff, 0xf7, 0xd9, 0x9f, 0x00, 0x00, 0x00, 0xff, 0xff,
-	0xe1, 0xd8, 0x51, 0x32, 0xd4, 0x02, 0x00, 0x00,
+	// 546 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x53, 0xcb, 0x6e, 0xd3, 0x40,
+	0x14, 0xf5, 0x38, 0x4d, 0x44, 0xaf, 0xfb, 0x48, 0x47, 0x20, 0x55, 0x16, 0x8c, 0x8a, 0xd5, 0x45,
+	0x24, 0x84, 0x43, 0x82, 0x40, 0x15, 0x2b, 0x1a, 0x09, 0x55, 0x48, 0x2c, 0x90, 0xb3, 0x63, 0x83,
+	0xa6, 0xce, 0xa5, 0x58, 0xf1, 0x8b, 0xf1, 0xd8, 0x52, 0x76, 0x7c, 0x02, 0x9f, 0xc1, 0x86, 0xff,
+	0x60, 0x99, 0x65, 0xd9, 0x11, 0x67, 0xc3, 0xb2, 0x9f, 0x80, 0x3c, 0x63, 0xe7, 0x01, 0xed, 0x6e,
+	0xee, 0x9d, 0x7b, 0xce, 0x3d, 0xe7, 0x8c, 0x06, 0x8e, 0x8a, 0x41, 0xff, 0x8a, 0x47, 0xf8, 0x91,
+	0xa7, 0x81, 0x9b, 0x8a, 0x44, 0x26, 0xd4, 0x2c, 0x06, 0xce, 0x63, 0xb0, 0xde, 0x87, 0x7c, 0xe6,
+	0xe1, 0x97, 0x1c, 0x33, 0x49, 0x29, 0xec, 0xc4, 0x3c, 0xc2, 0x63, 0x72, 0x42, 0x7a, 0xbb, 0x9e,
+	0x3a, 0x3b, 0x67, 0xb0, 0xa7, 0x47, 0xb2, 0x34, 0x89, 0x33, 0xa4, 0xf7, 0xa1, 0x2d, 0x93, 0x29,
+	0xc6, 0xc7, 0xa0, 0x86, 0x74, 0xb1, 0x42, 0x9a, 0x1b, 0xc8, 0x53, 0xd8, 0x1b, 0x4b, 0x2e, 0xb1,
+	0x61, 0xbf, 0x15, 0xe9, 0x48, 0xe8, 0x54, 0xfc, 0x28, 0xe8, 0x43, 0xd8, 0x15, 0x98, 0x25, 0xb9,
+	0xf0, 0x31, 0x53, 0x12, 0xda, 0xde, 0xba, 0x41, 0x7b, 0x70, 0x98, 0x8a, 0x64, 0x92, 0xfb, 0x32,
+	0x48, 0xe2, 0x77, 0x58, 0x60, 0xa8, 0x96, 0xb5, 0xbd, 0x7f, 0xdb, 0xd4, 0x81, 0xbd, 0x09, 0x7e,
+	0xc2, 0x38, 0x43, 0x3d, 0xd6, 0x52, 0x63, 0x5b, 0x3d, 0xe7, 0x25, 0x80, 0xde, 0x5a, 0x29, 0xbc,
+	0xcd, 0x77, 0xa5, 0x36, 0xf3, 0x13, 0xd1, 0x58, 0xd2, 0x85, 0xf3, 0x83, 0xc0, 0x7e, 0x6d, 0xaa,
+	0xce, 0xc3, 0x06, 0xb3, 0x46, 0x5a, 0x43, 0x70, 0x8b, 0x81, 0xab, 0x79, 0x3d, 0x33, 0x42, 0xfa,
+	0x02, 0x3a, 0x0a, 0x96, 0x1d, 0x9b, 0x27, 0xad, 0x9e, 0x35, 0x7c, 0x54, 0xdd, 0x6f, 0xc1, 0xdd,
+	0xb1, 0xba, 0x7f, 0x13, 0x4b, 0x31, 0xf3, 0xea, 0x61, 0xfb, 0x2d, 0x58, 0x1b, 0x6d, 0xda, 0x85,
+	0xd6, 0x14, 0x67, 0xb5, 0xb8, 0xea, 0x48, 0x4f, 0xa1, 0x5d, 0xf0, 0x30, 0xd7, 0xda, 0xac, 0xe1,
+	0xc1, 0x7a, 0x6d, 0x45, 0xee, 0xe9, 0xcb, 0x57, 0xe6, 0x19, 0xa9, 0x7c, 0x8e, 0xf2, 0xcd, 0xf7,
+	0x0d, 0x24, 0x46, 0x8d, 0xcf, 0xea, 0x7c, 0xc7, 0xab, 0xec, 0x83, 0xa5, 0x70, 0x5a, 0xa5, 0x73,
+	0x0e, 0xfb, 0xe7, 0x52, 0x72, 0x7f, 0xda, 0x30, 0xd9, 0x70, 0x4f, 0xe5, 0x39, 0x41, 0x51, 0xb3,
+	0xad, 0xea, 0x3b, 0x18, 0xbb, 0x70, 0xd0, 0x50, 0x68, 0xd2, 0xe1, 0x2f, 0x02, 0xd6, 0x05, 0x8f,
+	0x70, 0x8c, 0xa2, 0x08, 0x7c, 0xa4, 0x4f, 0x60, 0xa7, 0x32, 0x41, 0x0f, 0x1b, 0x3b, 0xf5, 0x32,
+	0xbb, 0xbb, 0x6e, 0xd4, 0x7a, 0x0c, 0xfa, 0x1a, 0x1e, 0x5c, 0xa0, 0x1c, 0x4b, 0x81, 0x3c, 0x0a,
+	0xe2, 0xab, 0x91, 0x48, 0xf8, 0xc4, 0xe7, 0x99, 0xa4, 0xdd, 0x8d, 0x8c, 0x35, 0xfc, 0xe8, 0xbf,
+	0xd4, 0x1d, 0xe3, 0x19, 0xa1, 0x3d, 0x68, 0x8d, 0xf2, 0x19, 0x55, 0xe1, 0xad, 0x33, 0xb2, 0x0f,
+	0x57, 0xf5, 0x6a, 0xd7, 0x00, 0x3a, 0x5a, 0x3a, 0x55, 0x54, 0x5b, 0x49, 0xd8, 0x74, 0xb3, 0xd5,
+	0x40, 0x46, 0x93, 0xf9, 0x82, 0x19, 0xd7, 0x0b, 0x66, 0xdc, 0x2c, 0x18, 0xf9, 0x5a, 0x32, 0xf2,
+	0xbd, 0x64, 0xe4, 0x67, 0xc9, 0xc8, 0xbc, 0x64, 0xe4, 0x77, 0xc9, 0xc8, 0x9f, 0x92, 0x19, 0x37,
+	0x25, 0x23, 0xdf, 0x96, 0xcc, 0x98, 0x2f, 0x99, 0x71, 0xbd, 0x64, 0xc6, 0x07, 0xf7, 0x2a, 0x90,
+	0x9f, 0xf3, 0x4b, 0xd7, 0x4f, 0xa2, 0x7e, 0x8a, 0x32, 0x89, 0x78, 0x18, 0xc4, 0xbc, 0x1f, 0xe5,
+	0xa1, 0x0c, 0x52, 0xf5, 0xbe, 0x4f, 0xfd, 0x30, 0xf0, 0xa7, 0x28, 0xfa, 0x3c, 0x0d, 0xb2, 0xcb,
+	0x8e, 0xfa, 0xc9, 0xcf, 0xff, 0x06, 0x00, 0x00, 0xff, 0xff, 0xe3, 0xb2, 0x6f, 0xc0, 0xde, 0x03,
+	0x00, 0x00,
 }
 
 func (this *PlayRequest) Equal(that interface{}) bool {
@@ -457,6 +600,9 @@ func (this *PlayResponse) Equal(that interface{}) bool {
 	if this.Token != that1.Token {
 		return false
 	}
+	if this.Name != that1.Name {
+		return false
+	}
 	return true
 }
 func (this *StateRequest) Equal(that interface{}) bool {
@@ -483,6 +629,63 @@ func (this *StateRequest) Equal(that interface{}) bool {
 	}
 	return true
 }
+func (this *Player) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*Player)
+	if !ok {
+		that2, ok := that.(Player)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.Resources != that1.Resources {
+		return false
+	}
+	if this.ProductionLevel != that1.ProductionLevel {
+		return false
+	}
+	if this.DefenseLevel != that1.DefenseLevel {
+		return false
+	}
+	return true
+}
+func (this *PlayerStat) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*PlayerStat)
+	if !ok {
+		that2, ok := that.(PlayerStat)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.Name != that1.Name {
+		return false
+	}
+	if this.Score != that1.Score {
+		return false
+	}
+	return true
+}
 func (this *StateResponse) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
@@ -502,11 +705,14 @@ func (this *StateResponse) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
+	if !this.Me.Equal(that1.Me) {
+		return false
+	}
 	if len(this.Scores) != len(that1.Scores) {
 		return false
 	}
 	for i := range this.Scores {
-		if this.Scores[i] != that1.Scores[i] {
+		if !this.Scores[i].Equal(that1.Scores[i]) {
 			return false
 		}
 	}
@@ -579,6 +785,9 @@ func (this *AttackRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
+	if this.Defender != that1.Defender {
+		return false
+	}
 	if this.Token != that1.Token {
 		return false
 	}
@@ -619,9 +828,10 @@ func (this *PlayResponse) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := make([]string, 0, 5)
+	s := make([]string, 0, 6)
 	s = append(s, "&apis.PlayResponse{")
 	s = append(s, "Token: "+fmt.Sprintf("%#v", this.Token)+",\n")
+	s = append(s, "Name: "+fmt.Sprintf("%#v", this.Name)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
@@ -635,18 +845,44 @@ func (this *StateRequest) GoString() string {
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
+func (this *Player) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 7)
+	s = append(s, "&apis.Player{")
+	s = append(s, "Resources: "+fmt.Sprintf("%#v", this.Resources)+",\n")
+	s = append(s, "ProductionLevel: "+fmt.Sprintf("%#v", this.ProductionLevel)+",\n")
+	s = append(s, "DefenseLevel: "+fmt.Sprintf("%#v", this.DefenseLevel)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *PlayerStat) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 6)
+	s = append(s, "&apis.PlayerStat{")
+	s = append(s, "Name: "+fmt.Sprintf("%#v", this.Name)+",\n")
+	s = append(s, "Score: "+fmt.Sprintf("%#v", this.Score)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
 func (this *StateResponse) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := make([]string, 0, 5)
+	s := make([]string, 0, 6)
 	s = append(s, "&apis.StateResponse{")
+	if this.Me != nil {
+		s = append(s, "Me: "+fmt.Sprintf("%#v", this.Me)+",\n")
+	}
 	keysForScores := make([]string, 0, len(this.Scores))
 	for k, _ := range this.Scores {
 		keysForScores = append(keysForScores, k)
 	}
 	github_com_gogo_protobuf_sortkeys.Strings(keysForScores)
-	mapStringForScores := "map[string]string{"
+	mapStringForScores := "map[string]*PlayerStat{"
 	for _, k := range keysForScores {
 		mapStringForScores += fmt.Sprintf("%#v: %#v,", k, this.Scores[k])
 	}
@@ -681,8 +917,9 @@ func (this *AttackRequest) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := make([]string, 0, 5)
+	s := make([]string, 0, 6)
 	s = append(s, "&apis.AttackRequest{")
+	s = append(s, "Defender: "+fmt.Sprintf("%#v", this.Defender)+",\n")
 	s = append(s, "Token: "+fmt.Sprintf("%#v", this.Token)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
@@ -978,6 +1215,13 @@ func (m *PlayResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x52
 	}
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintGameApi(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0x12
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -1011,6 +1255,81 @@ func (m *StateRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *Player) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Player) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Player) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.DefenseLevel != 0 {
+		i = encodeVarintGameApi(dAtA, i, uint64(m.DefenseLevel))
+		i--
+		dAtA[i] = 0x18
+	}
+	if m.ProductionLevel != 0 {
+		i = encodeVarintGameApi(dAtA, i, uint64(m.ProductionLevel))
+		i--
+		dAtA[i] = 0x10
+	}
+	if m.Resources != 0 {
+		i = encodeVarintGameApi(dAtA, i, uint64(m.Resources))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *PlayerStat) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *PlayerStat) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *PlayerStat) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Score) > 0 {
+		i -= len(m.Score)
+		copy(dAtA[i:], m.Score)
+		i = encodeVarintGameApi(dAtA, i, uint64(len(m.Score)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintGameApi(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
 func (m *StateResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -1035,11 +1354,18 @@ func (m *StateResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		for k := range m.Scores {
 			v := m.Scores[k]
 			baseI := i
-			i -= len(v)
-			copy(dAtA[i:], v)
-			i = encodeVarintGameApi(dAtA, i, uint64(len(v)))
-			i--
-			dAtA[i] = 0x12
+			if v != nil {
+				{
+					size, err := v.MarshalToSizedBuffer(dAtA[:i])
+					if err != nil {
+						return 0, err
+					}
+					i -= size
+					i = encodeVarintGameApi(dAtA, i, uint64(size))
+				}
+				i--
+				dAtA[i] = 0x12
+			}
 			i -= len(k)
 			copy(dAtA[i:], k)
 			i = encodeVarintGameApi(dAtA, i, uint64(len(k)))
@@ -1047,8 +1373,20 @@ func (m *StateResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0xa
 			i = encodeVarintGameApi(dAtA, i, uint64(baseI-i))
 			i--
-			dAtA[i] = 0xa
+			dAtA[i] = 0x12
 		}
+	}
+	if m.Me != nil {
+		{
+			size, err := m.Me.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintGameApi(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
 	}
 	return len(dAtA) - i, nil
 }
@@ -1140,6 +1478,13 @@ func (m *AttackRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x52
 	}
+	if len(m.Defender) > 0 {
+		i -= len(m.Defender)
+		copy(dAtA[i:], m.Defender)
+		i = encodeVarintGameApi(dAtA, i, uint64(len(m.Defender)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -1196,6 +1541,10 @@ func (m *PlayResponse) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.Name)
+	if l > 0 {
+		n += 1 + l + sovGameApi(uint64(l))
+	}
 	l = len(m.Token)
 	if l > 0 {
 		n += 1 + l + sovGameApi(uint64(l))
@@ -1216,17 +1565,61 @@ func (m *StateRequest) Size() (n int) {
 	return n
 }
 
+func (m *Player) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Resources != 0 {
+		n += 1 + sovGameApi(uint64(m.Resources))
+	}
+	if m.ProductionLevel != 0 {
+		n += 1 + sovGameApi(uint64(m.ProductionLevel))
+	}
+	if m.DefenseLevel != 0 {
+		n += 1 + sovGameApi(uint64(m.DefenseLevel))
+	}
+	return n
+}
+
+func (m *PlayerStat) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Name)
+	if l > 0 {
+		n += 1 + l + sovGameApi(uint64(l))
+	}
+	l = len(m.Score)
+	if l > 0 {
+		n += 1 + l + sovGameApi(uint64(l))
+	}
+	return n
+}
+
 func (m *StateResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
+	if m.Me != nil {
+		l = m.Me.Size()
+		n += 1 + l + sovGameApi(uint64(l))
+	}
 	if len(m.Scores) > 0 {
 		for k, v := range m.Scores {
 			_ = k
 			_ = v
-			mapEntrySize := 1 + len(k) + sovGameApi(uint64(len(k))) + 1 + len(v) + sovGameApi(uint64(len(v)))
+			l = 0
+			if v != nil {
+				l = v.Size()
+				l += 1 + sovGameApi(uint64(l))
+			}
+			mapEntrySize := 1 + len(k) + sovGameApi(uint64(len(k))) + l
 			n += mapEntrySize + 1 + sovGameApi(uint64(mapEntrySize))
 		}
 	}
@@ -1265,6 +1658,10 @@ func (m *AttackRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.Defender)
+	if l > 0 {
+		n += 1 + l + sovGameApi(uint64(l))
+	}
 	l = len(m.Token)
 	if l > 0 {
 		n += 1 + l + sovGameApi(uint64(l))
@@ -1302,6 +1699,7 @@ func (this *PlayResponse) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&PlayResponse{`,
+		`Name:` + fmt.Sprintf("%v", this.Name) + `,`,
 		`Token:` + fmt.Sprintf("%v", this.Token) + `,`,
 		`}`,
 	}, "")
@@ -1317,6 +1715,29 @@ func (this *StateRequest) String() string {
 	}, "")
 	return s
 }
+func (this *Player) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&Player{`,
+		`Resources:` + fmt.Sprintf("%v", this.Resources) + `,`,
+		`ProductionLevel:` + fmt.Sprintf("%v", this.ProductionLevel) + `,`,
+		`DefenseLevel:` + fmt.Sprintf("%v", this.DefenseLevel) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *PlayerStat) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&PlayerStat{`,
+		`Name:` + fmt.Sprintf("%v", this.Name) + `,`,
+		`Score:` + fmt.Sprintf("%v", this.Score) + `,`,
+		`}`,
+	}, "")
+	return s
+}
 func (this *StateResponse) String() string {
 	if this == nil {
 		return "nil"
@@ -1326,12 +1747,13 @@ func (this *StateResponse) String() string {
 		keysForScores = append(keysForScores, k)
 	}
 	github_com_gogo_protobuf_sortkeys.Strings(keysForScores)
-	mapStringForScores := "map[string]string{"
+	mapStringForScores := "map[string]*PlayerStat{"
 	for _, k := range keysForScores {
 		mapStringForScores += fmt.Sprintf("%v: %v,", k, this.Scores[k])
 	}
 	mapStringForScores += "}"
 	s := strings.Join([]string{`&StateResponse{`,
+		`Me:` + strings.Replace(this.Me.String(), "Player", "Player", 1) + `,`,
 		`Scores:` + mapStringForScores + `,`,
 		`}`,
 	}, "")
@@ -1362,6 +1784,7 @@ func (this *AttackRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&AttackRequest{`,
+		`Defender:` + fmt.Sprintf("%v", this.Defender) + `,`,
 		`Token:` + fmt.Sprintf("%v", this.Token) + `,`,
 		`}`,
 	}, "")
@@ -1498,6 +1921,38 @@ func (m *PlayResponse) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: PlayResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGameApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthGameApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthGameApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Name = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		case 10:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Token", wireType)
@@ -1639,6 +2094,233 @@ func (m *StateRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+func (m *Player) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowGameApi
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Player: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Player: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Resources", wireType)
+			}
+			m.Resources = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGameApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Resources |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ProductionLevel", wireType)
+			}
+			m.ProductionLevel = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGameApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ProductionLevel |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field DefenseLevel", wireType)
+			}
+			m.DefenseLevel = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGameApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.DefenseLevel |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipGameApi(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthGameApi
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthGameApi
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *PlayerStat) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowGameApi
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: PlayerStat: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: PlayerStat: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGameApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthGameApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthGameApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Name = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Score", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGameApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthGameApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthGameApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Score = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipGameApi(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthGameApi
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthGameApi
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
 func (m *StateResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1670,6 +2352,42 @@ func (m *StateResponse) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Me", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGameApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGameApi
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGameApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Me == nil {
+				m.Me = &Player{}
+			}
+			if err := m.Me.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Scores", wireType)
 			}
 			var msglen int
@@ -1698,10 +2416,10 @@ func (m *StateResponse) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Scores == nil {
-				m.Scores = make(map[string]string)
+				m.Scores = make(map[string]*PlayerStat)
 			}
 			var mapkey string
-			var mapvalue string
+			var mapvalue *PlayerStat
 			for iNdEx < postIndex {
 				entryPreIndex := iNdEx
 				var wire uint64
@@ -1750,7 +2468,7 @@ func (m *StateResponse) Unmarshal(dAtA []byte) error {
 					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
 					iNdEx = postStringIndexmapkey
 				} else if fieldNum == 2 {
-					var stringLenmapvalue uint64
+					var mapmsglen int
 					for shift := uint(0); ; shift += 7 {
 						if shift >= 64 {
 							return ErrIntOverflowGameApi
@@ -1760,24 +2478,26 @@ func (m *StateResponse) Unmarshal(dAtA []byte) error {
 						}
 						b := dAtA[iNdEx]
 						iNdEx++
-						stringLenmapvalue |= uint64(b&0x7F) << shift
+						mapmsglen |= int(b&0x7F) << shift
 						if b < 0x80 {
 							break
 						}
 					}
-					intStringLenmapvalue := int(stringLenmapvalue)
-					if intStringLenmapvalue < 0 {
+					if mapmsglen < 0 {
 						return ErrInvalidLengthGameApi
 					}
-					postStringIndexmapvalue := iNdEx + intStringLenmapvalue
-					if postStringIndexmapvalue < 0 {
+					postmsgIndex := iNdEx + mapmsglen
+					if postmsgIndex < 0 {
 						return ErrInvalidLengthGameApi
 					}
-					if postStringIndexmapvalue > l {
+					if postmsgIndex > l {
 						return io.ErrUnexpectedEOF
 					}
-					mapvalue = string(dAtA[iNdEx:postStringIndexmapvalue])
-					iNdEx = postStringIndexmapvalue
+					mapvalue = &PlayerStat{}
+					if err := mapvalue.Unmarshal(dAtA[iNdEx:postmsgIndex]); err != nil {
+						return err
+					}
+					iNdEx = postmsgIndex
 				} else {
 					iNdEx = entryPreIndex
 					skippy, err := skipGameApi(dAtA[iNdEx:])
@@ -2018,6 +2738,38 @@ func (m *AttackRequest) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: AttackRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Defender", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGameApi
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthGameApi
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthGameApi
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Defender = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		case 10:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Token", wireType)

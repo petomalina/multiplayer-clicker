@@ -22,6 +22,9 @@ export class PlayResponse extends jspb.Message {
   getToken(): string;
   setToken(value: string): void;
 
+  getName(): string;
+  setName(value: string): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): PlayResponse.AsObject;
   static toObject(includeInstance: boolean, msg: PlayResponse): PlayResponse.AsObject;
@@ -33,6 +36,7 @@ export class PlayResponse extends jspb.Message {
 export namespace PlayResponse {
   export type AsObject = {
     token: string,
+    name: string,
   }
 }
 
@@ -54,8 +58,61 @@ export namespace StateRequest {
   }
 }
 
+export class Player extends jspb.Message {
+  getResources(): number;
+  setResources(value: number): void;
+
+  getProductionlevel(): number;
+  setProductionlevel(value: number): void;
+
+  getDefenselevel(): number;
+  setDefenselevel(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): Player.AsObject;
+  static toObject(includeInstance: boolean, msg: Player): Player.AsObject;
+  static serializeBinaryToWriter(message: Player, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Player;
+  static deserializeBinaryFromReader(message: Player, reader: jspb.BinaryReader): Player;
+}
+
+export namespace Player {
+  export type AsObject = {
+    resources: number,
+    productionlevel: number,
+    defenselevel: number,
+  }
+}
+
+export class PlayerStat extends jspb.Message {
+  getName(): string;
+  setName(value: string): void;
+
+  getScore(): string;
+  setScore(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): PlayerStat.AsObject;
+  static toObject(includeInstance: boolean, msg: PlayerStat): PlayerStat.AsObject;
+  static serializeBinaryToWriter(message: PlayerStat, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): PlayerStat;
+  static deserializeBinaryFromReader(message: PlayerStat, reader: jspb.BinaryReader): PlayerStat;
+}
+
+export namespace PlayerStat {
+  export type AsObject = {
+    name: string,
+    score: string,
+  }
+}
+
 export class StateResponse extends jspb.Message {
-  getScoresMap(): jspb.Map<string, string>;
+  getMe(): Player | undefined;
+  setMe(value?: Player): void;
+  hasMe(): boolean;
+  clearMe(): void;
+
+  getScoresMap(): jspb.Map<string, PlayerStat>;
   clearScoresMap(): void;
 
   serializeBinary(): Uint8Array;
@@ -68,7 +125,8 @@ export class StateResponse extends jspb.Message {
 
 export namespace StateResponse {
   export type AsObject = {
-    scoresMap: Array<[string, string]>,
+    me?: Player.AsObject,
+    scoresMap: Array<[string, PlayerStat.AsObject]>,
   }
 }
 
@@ -109,6 +167,9 @@ export namespace BuyResponse {
 }
 
 export class AttackRequest extends jspb.Message {
+  getDefender(): string;
+  setDefender(value: string): void;
+
   getToken(): string;
   setToken(value: string): void;
 
@@ -122,6 +183,7 @@ export class AttackRequest extends jspb.Message {
 
 export namespace AttackRequest {
   export type AsObject = {
+    defender: string,
     token: string,
   }
 }

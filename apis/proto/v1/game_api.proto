@@ -13,14 +13,27 @@ message PlayRequest {
 
 message PlayResponse {
     string token = 10;
+    string name = 2;
 }
 
 message StateRequest {
     string token = 10;
 }
 
+message Player {
+    int32 resources = 1;
+    int32 productionLevel = 2;
+    int32 defenseLevel = 3;
+}
+
+message PlayerStat {
+    string name = 1;
+    string score = 2;
+}
+
 message StateResponse {
-    map<string, string> scores = 1;
+    Player me = 1;
+    map<string, PlayerStat> scores = 2;
 }
 
 message BuyRequest {
@@ -32,6 +45,8 @@ message BuyRequest {
 message BuyResponse {}
 
 message AttackRequest {
+    string defender = 1;
+
     string token = 10;
 }
 
