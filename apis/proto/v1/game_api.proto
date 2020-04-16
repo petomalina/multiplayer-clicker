@@ -16,7 +16,7 @@ message PlayResponse {
     string name = 2;
 }
 
-message StateRequest {
+message JoinRequest {
     string token = 10;
 }
 
@@ -56,7 +56,7 @@ service GameService {
     rpc Play (PlayRequest) returns (PlayResponse) {
     }
 
-    rpc GetStreamingBroadcast (StateRequest) returns (stream StateResponse) {
+    rpc JoinGame (JoinRequest) returns (stream StateResponse) {
     }
 
     rpc Buy (BuyRequest) returns (BuyResponse) {

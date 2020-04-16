@@ -40,19 +40,19 @@ export namespace PlayResponse {
   }
 }
 
-export class StateRequest extends jspb.Message {
+export class JoinRequest extends jspb.Message {
   getToken(): string;
   setToken(value: string): void;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): StateRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: StateRequest): StateRequest.AsObject;
-  static serializeBinaryToWriter(message: StateRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): StateRequest;
-  static deserializeBinaryFromReader(message: StateRequest, reader: jspb.BinaryReader): StateRequest;
+  toObject(includeInstance?: boolean): JoinRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: JoinRequest): JoinRequest.AsObject;
+  static serializeBinaryToWriter(message: JoinRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): JoinRequest;
+  static deserializeBinaryFromReader(message: JoinRequest, reader: jspb.BinaryReader): JoinRequest;
 }
 
-export namespace StateRequest {
+export namespace JoinRequest {
   export type AsObject = {
     token: string,
   }

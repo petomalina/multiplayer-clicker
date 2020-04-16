@@ -14,9 +14,9 @@ import {
   AttackResponse,
   BuyRequest,
   BuyResponse,
+  JoinRequest,
   PlayRequest,
   PlayResponse,
-  StateRequest,
   StateResponse} from './game_api_pb';
 
 export class GameServiceClient {
@@ -60,23 +60,23 @@ export class GameServiceClient {
       callback);
   }
 
-  methodInfoGetStreamingBroadcast = new grpcWeb.AbstractClientBase.MethodInfo(
+  methodInfoJoinGame = new grpcWeb.AbstractClientBase.MethodInfo(
     StateResponse,
-    (request: StateRequest) => {
+    (request: JoinRequest) => {
       return request.serializeBinary();
     },
     StateResponse.deserializeBinary
   );
 
-  getStreamingBroadcast(
-    request: StateRequest,
+  joinGame(
+    request: JoinRequest,
     metadata?: grpcWeb.Metadata) {
     return this.client_.serverStreaming(
       this.hostname_ +
-        '/v1.GameService/GetStreamingBroadcast',
+        '/v1.GameService/JoinGame',
       request,
       metadata || {},
-      this.methodInfoGetStreamingBroadcast);
+      this.methodInfoJoinGame);
   }
 
   methodInfoBuy = new grpcWeb.AbstractClientBase.MethodInfo(
